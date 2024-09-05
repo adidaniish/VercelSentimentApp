@@ -1,36 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatShare</title>
-    <link rel="icon" href="/static/images/logo.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link href="https://fonts.googleapis.com/css?family=Exo:400,700" rel="stylesheet">
+    <title>YouTube Sentiment Analysis</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-    <div class="area">
-        <div class="circles">
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+    <header class="custom-header text-center py-3">
+        YouTube Sentiment Analysis
+    </header>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Analyze Video Comments</h2>
+                        <form method="post" action="{{ url_for('analyze') }}" onsubmit="showSpinner()">
+                            <div class="form-group">
+                                <label for="video_url">Enter YouTube Video URL:</label>
+                                <input type="text" class="form-control" id="video_url" name="video_url" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="keywords">Enter up to 3 Keywords (comma-separated):</label>
+                                <input type="text" class="form-control" id="keywords" name="keywords" required pattern="[^,]+(?:,[^,]+){0,2}">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Analyze</button>
+                            </div>
+                        </form>
+                        <div class="spinner-border text-primary mt-3" role="status" id="loadingSpinner">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <p><em>Note: This tool analyzes the overall sentiment of comments on the specified YouTube video and sentiment based on the provided keywords by displaying analytical visuals for the result.</em></p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="context">
-        <h1>Coding Craft YT</h1>
-        <h3>Taking Your Flask Project Beyond Localhost!</h3>
-    </div>
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 Q3 Management Solutions Sdn Bhd. All rights reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+    </script>
 </body>
-
 </html>

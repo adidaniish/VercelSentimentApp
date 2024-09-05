@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="custom-header text-center py-3">
+        YouTube Sentiment Analysis
+    </header>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center">Analysis Results</h1>
+
+                <hr>
+
+                <h2>Video Details</h2>
+                <div class="scroll-container">
+                    <img src="{{ results['thumbnail_url'] }}" alt="Video Thumbnail" class="scrollable-image">
+                </div>
+                <p><strong>Title:</strong> {{ results.title }}</p>
+                <p><strong>Channel:</strong> {{ results.channel_title }}</p>
+                <p><strong>Published Date:</strong> {{ results.publish_date }}</p>
+                
+                <hr>
+
+                <p><strong>Average Polarity:</strong> {{ '%.4f' | format(results.avg_polarity) }}</p>
+                <p><strong>Overall Sentiment:</strong> {{ results.sentiment }}</p>
+                <p><strong>Average Comment Length:</strong> {{ '%.4f' | format(results.avg_comment_length) }}</p>
+
+                <hr>
+
+                <h2>Most Positive Comments</h2>
+                <ul>
+                    {% for comment in results.most_positive_comment %}
+                        <li>{{ comment }}</li>
+                    {% endfor %}
+                </ul>
+
+                <hr>
+
+                <h2>Most Negative Comments</h2>
+                <ul>
+                    {% for comment in results.most_negative_comment %}
+                        <li>{{ comment }}</li>
+                    {% endfor %}
+                </ul>
+
+                <hr>
+
+                <h2>Most Liked Comments</h2>
+                <table class="borderless-table">
+                    <tbody>
+                        {% for comment, likes in results.most_liked_comments %}
+                        <tr>
+                            <td>{{ comment }}</td>
+                            <td>{{ likes }} likes</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <hr>
+
+                <h2>Keyword Sentiment Analysis</h2>
+                <div>
+                    {% for keyword, result in results.keyword_results.items() %}
+                    <h3>Keyword: {{ keyword }}</h3>
+                    <p><strong>Count:</strong> {{ result.count }}</p>
+                    <p><strong>Average Polarity:</strong> {{ '%.4f' | format(result.avg_polarity) }}</p>
+                    <p><strong>Sentiment:</strong> {{ result.sentiment }}</p>
+                    <h4>Top Comments:</h4>
+                    <ul>
+                        {% for comment in result.comments %}
+                            <li>{{ comment }}</li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                    {% endfor %}
+                </div>
+
+                <h1>Visualizations</h1>
+
+                <hr>
+                
+                <h2>Sentiment Analysis of Comments</h2>
+                <div class="scroll-container">
+                    <iframe src="{{ url_for('static', filename='bar_chart_interactive.html') }}" class="scrollable-chart"></iframe>
+                </div>
+
+                <hr>
+                
+                <h2>Sentiment Distribution</h2>
+                <div class="scroll-container">
+                    <iframe src="{{ url_for('static', filename='pie_chart_interactive.html') }}" class="scrollable-chart"></iframe>
+                </div>
+
+                <hr>
+                
+                <h2>Comment Length Distribution</h2>
+                <div class="scroll-container">
+                    <iframe src="{{ url_for('static', filename='comment_length_histogram.html') }}" class="scrollable-chart"></iframe>
+                </div>
+
+                <hr>
+
+                <h2>Time Series Analysis of Sentiment</h2>
+                <div class="scroll-container">
+                    <img src="{{ url_for('static', filename='time_series_sentiment.png') }}" alt="Time Series Plot" class="scrollable-image">
+                </div>
+
+                <hr>
+
+                <h2>Interactive Word Cloud</h2>
+                <iframe src="/dash/" width="100%" height="600"></iframe>
+
+                <hr>
+
+                <h2>Word Clouds</h2>
+                <div>
+                    <h3>Positive Word Cloud</h3>
+                    <div class="scroll-container">
+                        <img src="{{ url_for('static', filename='word_cloud_positive.png') }}" alt="Positive Word Cloud" width="400" class="scrollable-image">
+                    </div>
+                    
+                    <h3>Negative Word Cloud</h3>
+                    <div class="scroll-container">
+                        <img src="{{ url_for('static', filename='word_cloud_negative.png') }}" alt="Negative Word Cloud" width="400" class="scrollable-image">
+                    </div>
+
+                    <h3>Neutral Word Cloud</h3>
+                    <div class="scroll-container">
+                        <img src="{{ url_for('static', filename='word_cloud_neutral.png') }}" alt="Neutral Word Cloud" width="400" class="scrollable-image">
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ url_for('index') }}" class="button">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 Q3 Management Solutions Sdn Bhd. All rights reserved.</p>
+    </footer>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
