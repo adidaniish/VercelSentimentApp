@@ -30,8 +30,7 @@ from dash.dependencies import Input, Output
 
 app = Flask(__name__)
 
-# API_KEY = os.getenv('YOUTUBE_API_KEY', 'default_fallback_key')
-API_KEY = 'AIzaSyD3XQad-gLswvlQatxPex6uykruwsuCvRU'
+API_KEY = os.getenv('YOUTUBE_API_KEY', 'default_fallback_key')
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
